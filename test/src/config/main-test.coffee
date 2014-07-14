@@ -11,6 +11,13 @@ console.log tests
 requirejs.config
   baseUrl: '/base/app/dist/scripts'
 
+  paths:
+    lodash: '../../../bower_components/lodash/dist/lodash.min'
+
+  shim:
+    'lodash':
+      exports: '_'
+
   deps: tests
 
   callback: window.__karma__.start

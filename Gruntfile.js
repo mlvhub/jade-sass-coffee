@@ -22,18 +22,25 @@ module.exports = function(grunt) {
     watch: {
       jade: {
         files: ['<%= yeoman.app %>/**/*.jade'],
-        tasks: ['clean', 'jade']
+        tasks: ['clean:jade', 'jade']
       },
       coffee: {
         files: [
           '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.coffee',
           '<%= yeoman.test %>/<%= yeoman.src %>/**/*.coffee'
         ],
-        tasks: ['clean', 'coffee']
+        tasks: ['clean:coffee', 'coffee']
       },
       compass: {
         files: ['<%= yeoman.app %>/<%= yeoman.styles %>/**/*.scss'],
-        tasks: ['clean', 'compass:server'],
+        tasks: ['clean:compass', 'compass'],
+      },
+      karma: {
+        files: [
+          '<%= yeoman.app %>/<%= yeoman.scripts %>/**/*.coffee',
+          '<%= yeoman.test %>/<%= yeoman.src %>/**/*.coffee'
+        ],
+        tasks: ['karma:unit:run']
       },
       gruntFile: {
         files: ['Gruntfile.js']
@@ -105,46 +112,43 @@ module.exports = function(grunt) {
     },
 
     compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '<%= yeoman.app %>/<%= yeoman.dist %>/<%= yeoman.styles %>',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: 'bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false,
-        assetCacheBuster: false,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
+      dev: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-        }
-      },
-      server: {
-        options: {
-          debugInfo: true
+          sassDir: '<%= yeoman.app %>/styles',
+          cssDir: '<%= yeoman.app %>/<%= yeoman.dist %>/<%= yeoman.styles %>',
         }
       }
     },
 
     concurrent: {
       server: [
-        'compass:server',
         'coffee',
         'jade',
+        'compass'
       ]
     },
 
-    clean: ['<%= yeoman.app %>/<%= yeoman.dist %>', '<%= yeoman.test %>/<%= yeoman.specs %>'],
+    clean: {
+      jade: {
+        src: ['<%= yeoman.app %>/<%= yeoman.dist %>/<%= yeoman.templates %>/*']
+      },
+      compass: {
+        src: ['<%= yeoman.app %>/<%= yeoman.dist %>/<%= yeoman.styles %>/*']
+      },
+      coffee: {
+        src: ['<%= yeoman.app %>/<%= yeoman.dist %>/<%= yeoman.scripts %>/*']
+      },
+      specs: {
+        src: ['<%= yeoman.test %>/<%= yeoman.specs %>/*']
+      }
+    },
 
     karma: {
-      unit: {
+      options: {
         configFile: 'karma.conf.js',
+        runnerPort: 9876
+      },
+      unit: {
         background: true
       }
     },
@@ -172,6 +176,7 @@ module.exports = function(grunt) {
       'clean',
       'concurrent:server',
       'connect:livereload',
+      'karma:unit:start',
       'watch'
     ]);
   });

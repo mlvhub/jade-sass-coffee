@@ -1,5 +1,5 @@
 (function() {
-  define(['calculator'], function(Calculator) {
+  define(['calculator', 'lodash'], function(Calculator, _) {
     return describe("Calculator", function() {
       var calc;
       calc = {};
@@ -8,7 +8,7 @@
       });
       return describe("the add method", function() {
         return it("should add two positive numbers correctly", function() {
-          return expect(calc.add([4, 5])).toEqual(9);
+          return expect(calc.add(4, 5)).toEqual(9);
         });
       });
     });

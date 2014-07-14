@@ -1,5 +1,5 @@
-define [], ->
+define ['lodash'], (_) ->
 
   class Calculator
-    add: (arr) ->
-      arr.reduce (x, y) -> x + y
+    add: ->
+      _.reduce arguments, (x, y) -> x + y

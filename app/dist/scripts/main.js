@@ -2,7 +2,7 @@
   require.config({
     baseUrl: 'dist/scripts',
     paths: {
-      specs: 'test/specs'
+      lodash: '../../bower_components/lodash/dist/lodash.min.js'
     }
   });
 

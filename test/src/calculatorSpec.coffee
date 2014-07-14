@@ -1,4 +1,4 @@
-define ['calculator'], (Calculator) ->
+define ['calculator', 'lodash'], (Calculator, _) ->
 
   describe "Calculator", ->
 
@@ -9,4 +9,4 @@ define ['calculator'], (Calculator) ->
 
     describe "the add method", ->
       it "should add two positive numbers correctly", ->
-        expect(calc.add [4, 5]).toEqual 9
+        expect(calc.add 4, 5).toEqual 9
